@@ -1,12 +1,42 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ConversorAppQ22026.ViewModels"
              x:Class="ConversorAppQ22026.Views.TemperaturaPage"
-             Title="TemperaturaPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Temperatura!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="Temperatura">
+    <ContentPage.BindingContext>
+        <vm:TemperaturaViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="18">
+            <Border BackgroundColor="#E53935" Padding="20">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="14" />
+                </Border.StrokeShape>
+                <VerticalStackLayout>
+                    <Label Text="🌡️" FontSize="40" HorizontalOptions="Center" />
+                    <Label Text="Conversor de Temperatura" FontSize="20" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Label Text="Tipo de Conversión" FontSize="14" FontAttributes="Bold"/>
+            <Picker ItemsSource="{Binding TiposConversion}" SelectedItem="{Binding TipoConversion}" Title="Seleccione una Conversión" />
+
+            <Entry Placeholder="Ej. 100" Text="{Binding Valor}" Keyboard="Numeric" ReturnCommand="{Binding ConvertirCommand}" />
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                <Button Grid.Column="0" Text="🔄 Convertir" Command="{Binding ConvertirCommand}" BackgroundColor="#E53935" TextColor="White" CornerRadius="10" HeightRequest="50" />
+
+                <Button Grid.Column="1" Text="🗑 Limpiar" Command="{Binding LimpiarCommand}" BackgroundColor="#FF1515B4" TextColor="White" CornerRadius="10" HeightRequest="50" />
+            </Grid>
+
+            <Border Background="#FFF3F3" Padding="20" IsVisible="{Binding Resultado,Converter={StaticResource StringToBoolConverter}}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="14" />
+                </Border.StrokeShape>
+                <Label Text="{Binding Resultado}" FontSize="22" FontAttributes="Bold" TextColor="#B71C1C" HorizontalOptions="Center" />
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
